@@ -1,0 +1,41 @@
+﻿@model ListOfEmployees.ViewModels.SubdivisionVM
+
+@{
+    ViewData["Title"] = "Редактировать подразделение";
+}
+
+<h3>Редактировать</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden"  asp-for="NameId" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="OrganizationId" />
+            </div>
+            <div class="form-group btnMarginTop">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                <a asp-action="Delete" class="btn btn-danger delete" asp-route-id="@Model.NameId">Удалить</a>
+                <a class="btn btngray" asp-action="Index" asp-route-id="@Model.OrganizationId">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function ()  /*Подверждение удаление */ {
+            $("a.delete").click(function () {
+                if (!confirm("Вы уверены что хотите удалить?")) return false;
+            });
+        });
+    </script>
+}

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ListOfEmployees.Models.Subdivision>
+
+@{
+    ViewData["Title"] = "Список подразделений";
+}
+
+<h1>Список подразделений</h1>
+
+@if (TempData["SM"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SM"]
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary" asp-route-id="@ViewBag.Organization">Добавить подразделение</a>
+    <a asp-action="Index" asp-controller="Organization" class="btn btngray">Назад</a>
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Название
+            </th>
+            <th>
+                Опции
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="col">
+                <a asp-action="Index" class="RemovableUnderliningOnLinks" asp-controller="Position" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+            <td class="col-1">
+                <a asp-action="Edit"  asp-route-id="@item.Id" class="RemovableUnderliningOnLinks">Редактировать</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

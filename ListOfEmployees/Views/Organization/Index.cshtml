@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ListOfEmployees.Models.Organization>
+
+@{
+    ViewData["Title"] = "Список организации";
+}
+
+<h1>Список организации</h1>
+
+@if (TempData["SM"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SM"]
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Добавить организацию</a>
+</p>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Название
+            </th>
+            <th>
+                Опции
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="col">
+                <a asp-controller="Subdivision" asp-action="Index" class="RemovableUnderliningOnLinks" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+            <td class="col-1">
+                <a asp-action="Edit" class="RemovableUnderliningOnLinks" asp-route-id="@item.Id">Редактировать</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

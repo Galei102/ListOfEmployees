@@ -1,0 +1,7 @@
+﻿@model IEnumerable<ListOfEmployees.Models.Subdivision>
+<select class="form-select" id="subdivision" name="SubdivisionId">
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>

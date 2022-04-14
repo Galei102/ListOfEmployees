@@ -1,0 +1,117 @@
+﻿@model ListOfEmployees.ViewModels.AddEmployeeVM
+
+@{
+    ViewData["Title"] = "Добавить сотрудника";
+}
+
+<h3>Добавить сотрудника</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstMidName" class="control-label"></label>
+                <input asp-for="FirstMidName" class="form-control" />
+                <span asp-validation-for="FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrganizationId" class="control-label"></label>
+                <select id="organization" asp-for="OrganizationId" asp-items="ViewBag.Organizations" class="form-select">
+                <option disabled selected>--- Выбрать ---</option></select>
+                <span asp-validation-for="OrganizationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubdivisionId" class="control-label"></label>
+                <select id="subdivision" asp-for="SubdivisionId" asp-items="ViewBag.Subdivisions" class="form-select">
+                <option disabled selected>--- Выбрать ---</option></select>
+                <span asp-validation-for="SubdivisionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionId" class="control-label"></label>
+                <select id="position" asp-for="PositionId" asp-items="ViewBag.Positions" class="form-select"> 
+                <option disabled selected>--- Выбрать ---</option></select>
+                <span asp-validation-for="PositionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" type="number" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group btnMarginTop">
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+                <a class="btn btngray" asp-action="Index" asp-controller="Home">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(function () {
+            // получаем выбранный id
+            $('#organization').change(function()
+            {
+                $('#position').find('option')
+                .remove()
+                .end().prepend($('<option>', {
+                            disabled: true,
+                            selected: true,
+                            text: '--- Выбрать ---'
+                        }));
+                var id = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("ValueSubdivisions")/' + id,
+                    success: function (data) {
+                        // заменяем содержимое присланным частичным представлением
+                        var html = $.parseHTML( data );
+                        $(html).prepend($('<option>', {
+                            disabled: true,
+                            selected: true,
+                            text: '--- Выбрать ---'
+                        }));
+                        $('#subdivision').replaceWith(html);
+
+                        $('#subdivision').change(function()
+                        {
+                            var id = $(this).val();
+                            $.ajax({
+                                type: 'GET',
+                                url: '@Url.Action("ValuePosition")/' + id,
+                                success: function (data) {
+                                    // заменяем содержимое присланным частичным представлением
+                                    var html = $.parseHTML( data );
+                                    $(html).prepend($('<option>', {
+                                        disabled: true,
+                                        selected: true,
+                                        text: '--- Выбрать ---'
+                                    }));
+                                    $('#position').replaceWith(html);
+                                }
+                            });
+                        });
+                    }
+                });
+            });
+        })
+    </script>
+}
+

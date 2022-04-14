@@ -1,0 +1,45 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.btngray {
+    color: #000;
+    background-color: #dee2e6;
+    border-color: #dee2e6;
+}
+
+
+.RemovableUnderliningOnLinks {
+    text-decoration: none; /* ќтмен€ем подчеркивание у ссылки */
+}
+
+.btnMarginTop {
+    margin-top: 10px
+}
+
+/* высота дл€ контейнера перед футером, где X=любому значению в px (подгон€йте это значение) */
+.conteiner {
+    min-height: calc(100vh - X);
+}
+
+/* ваш футер */
+.footer {
+    position: relative;
+    heigth: 100px;
+    width: 100%
+}
